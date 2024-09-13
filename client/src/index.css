@@ -1,0 +1,134 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* *,
+*::before,
+::after {
+  margin: 0;
+  padding: 0;
+} */
+
+@font-face {
+  font-family: "NoeDisplayRegular";
+  src: url("/fonts/FontsFree-Net-Noe-Display-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NoeDisplayBold";
+  src: url("/fonts/FontsFree-Net-NoeDisplay-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GTRegular";
+  src: url("/fonts/GT-Super-Text-Medium-Trial.otf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/TestSöhne-Dreiviertelfett.otf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sohne-Regular";
+  src: url("/fonts/TestSöhne-Halbfett.otf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  background-color: #ffff;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+#nprogress .bar {
+  background: rgb(194 65 12) !important;
+  position: fixed !important;
+  /* z-index: 1031 !important; */
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 4px !important; /* Ensure height is applied */
+}
+
+.custom-tabview .p-tabview-nav .p-tabview-nav-item.p-highlight {
+  background-color: orange; /* Highlight color for active tab */
+  color: white;
+}
+
+.font-regular-logo {
+  font-family: "NoeDisplayRegular", sans-serif;
+}
+.font-bold-logo {
+  font-family: "NoeDisplayBold", sans-serif;
+}
+.font-home-heading {
+  font-family: "GTRegular", sans-serif;
+}
+.font-blog-title {
+  /* font-family: "Sohne", sans-serif; */
+  font-family: "Open Sans", sans-serif;
+}
+.font-blog-content {
+  font-family: "Lora", serif;
+}
+
+.file-upload-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.custom-file-upload {
+  width: 100%;
+}
+
+.custom-file-upload .p-fileupload-choose {
+  width: 100%;
+  background-color: #f3f4f6;
+  border: 2px dashed #d1d5db;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.custom-file-upload .p-fileupload-choose:not(.p-disabled):hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+.custom-upload-btn {
+  width: 100%;
+  background-color: #f3f4f6 !important;
+  border: 2px dashed #d1d5db !important;
+  color: #374151 !important;
+  transition: all 0.3s ease !important;
+  padding: 1rem !important;
+  font-weight: 600 !important;
+}
+
+.custom-upload-btn:hover {
+  background-color: #e5e7eb !important;
+  border-color: #9ca3af !important;
+  color: #111827 !important;
+}
+
+.custom-upload-btn .p-button-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
