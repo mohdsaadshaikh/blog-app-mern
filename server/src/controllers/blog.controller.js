@@ -45,7 +45,7 @@ const getAllBlog = TryCatch(async (req, res, next) => {
   const limitation = parseInt(limit) || 10;
 
   const startIndex = (pagination - 1) * limitation;
-  //abhi set krunga isey
+
   let blog;
   if (sortBy === "mostLiked") {
     blog = await Blog.aggregate([
@@ -54,12 +54,25 @@ const getAllBlog = TryCatch(async (req, res, next) => {
       { $sort: { likesCount: -1 } },
       { $skip: startIndex },
       { $limit: limitation },
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      { $unwind: "$author" },
     ]);
   } else {
     blog = await Blog.find(filterQuery)
       .sort(sortQuery)
       .skip(startIndex)
-      .limit(limitation);
+      .limit(limitation)
+      .populate({
+        path: "author",
+        select: "name avatar role",
+      });
   }
 
   if (blog.length === 0) {
@@ -74,10 +87,19 @@ const getAllBlog = TryCatch(async (req, res, next) => {
 });
 
 const getOneBlog = TryCatch(async (req, res, next) => {
-  const blog = await Blog.findById(req.params.id).populate({
-    path: "comments",
-    select: "comment user likes -blog",
-  });
+  const blog = await Blog.findById(req.params.id)
+    .populate({
+      path: "comments",
+      select: "comment user likes replies -blog",
+      populate: {
+        path: "user",
+        select: "name avatar ",
+      },
+    })
+    .populate({
+      path: "author",
+      select: "name avatar role",
+    });
 
   if (!blog) {
     return next(new ApiError("No Blog found with this id", 404));
@@ -269,6 +291,32 @@ const reactToblog = TryCatch(async (req, res, next) => {
   });
 });
 
+const getAuthorBlogs = TryCatch(async (req, res, next) => {
+  const { blogId } = req.params;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) {
+    return next(new ApiError("Blog not found", 404));
+  }
+
+  const authorId = blog.author;
+
+  const authorBlogs = await Blog.find({ author: authorId }).sort({
+    createdAt: -1,
+  });
+
+  if (authorBlogs.length === 0) {
+    return next(new ApiError("No other blogs found by this author", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    results: authorBlogs.length,
+    data: authorBlogs,
+  });
+});
+
 export {
   createBlog,
   deleteBlog,
@@ -276,4 +324,5 @@ export {
   getOneBlog,
   reactToblog,
   updateBlog,
+  getAuthorBlogs,
 };

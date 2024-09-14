@@ -32,6 +32,9 @@ const BlogCard = ({ blog }) => {
           <span className="text-gray-700 hover:underline cursor-pointer text-[13px]">
             {author?.name}
           </span>
+          <span className="text-gray-700 hover:underline cursor-pointer text-[13px]">
+            {author?.role}
+          </span>
         </div>
         <h2 className="text-2xl max-md:text-base hover:text-gray-800 cursor-pointer font-blog-title font-bold text-black">
           {title}

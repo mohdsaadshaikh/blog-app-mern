@@ -3,6 +3,7 @@ import {
   createBlog,
   deleteBlog,
   getAllBlog,
+  getAuthorBlogs,
   getOneBlog,
   reactToblog,
   updateBlog,
@@ -47,5 +48,7 @@ router
   .delete(protect, restrictTo("Admin", "Creator"), deleteBlog);
 
 router.patch("/:blogId/react", protect, reactToblog);
+
+router.get("/:blogId/more", getAuthorBlogs);
 
 export default router;

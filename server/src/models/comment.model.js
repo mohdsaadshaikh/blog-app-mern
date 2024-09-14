@@ -56,7 +56,13 @@ const commentSchema = new Schema(
 commentSchema.index({ likes: 1 });
 
 commentSchema.pre(/^find/, function (next) {
-  this.populate({ path: "user", select: "name" });
+  this.populate({
+    path: "user",
+    select: "name avatar",
+  }).populate({
+    path: "replies.user",
+    select: "name avatar",
+  });
   next();
 });
 

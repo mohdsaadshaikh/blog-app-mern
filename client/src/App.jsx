@@ -17,6 +17,7 @@ import {
   ForgotPassword,
   ResetPassword,
 } from "./screens/authentication/password/index";
+import ChangePassword from "./screens/authentication/password/ChangePassword";
 
 const Auth = lazy(() => import("./screens/authentication/Auth"));
 const ErrorPage = lazy(() => import("./Components/ErrorPage"));
@@ -78,6 +79,7 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/settings" element={<Settings />} />
                 <Route path="/creator-request" element={<CreatorRequest />} />
+                <Route path="/change-password" element={<ChangePassword />} />
               </Route>
             )}
             <Route path="*" element={<ErrorPage />} />
