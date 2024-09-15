@@ -1,5 +1,6 @@
 import TryCatch from "express-async-handler";
 import User from "../models/user.model.js";
+import { Blog } from "../models/blog.model.js";
 import { RoleRequest } from "../models/roleRequest.model.js";
 import {
   uploadFileToCloudinary,
@@ -219,7 +220,7 @@ const requestCreatorRole = TryCatch(async (req, res, next) => {
       }
     );
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return next(new ApiError("Error sending role request email", 500));
   }
 
@@ -229,4 +230,28 @@ const requestCreatorRole = TryCatch(async (req, res, next) => {
   });
 });
 
-export { updateMe, getMyProfile, deleteMe, requestCreatorRole };
+const getUserProfile = TryCatch(async (req, res, next) => {
+  const { userId } = req.params;
+  const user = await User.findById(userId).select(
+    "-password -passwordChangedAt -deactivatedAt -updatedAt -__v"
+  );
+
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
+  const blogs = await Blog.find({ author: userId })
+    .sort({ createdAt: -1 })
+    .populate("author", "name avatar");
+
+  if (!blogs) {
+    return next(new ApiError("No blogs found", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: { user, blogs },
+  });
+});
+
+export { updateMe, getMyProfile, deleteMe, requestCreatorRole, getUserProfile };

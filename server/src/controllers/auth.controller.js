@@ -136,7 +136,6 @@ const login = TryCatch(async (req, res, next) => {
   user.password = undefined;
 
   const authToken = generateToken(user._id, "AuthToken", "30d");
-  console.log(req.cookies);
 
   res.status(201).cookie("Token", authToken, cookieOptions).json({
     status: "success",
@@ -207,7 +206,6 @@ const forgotPassword = TryCatch(async (req, res, next) => {
       url: `http://localhost:5173/reset-password/${resetPassToken}`,
     });
   } catch (error) {
-    console.log(error);
     return next(new ApiError("Error sending reset password email", 500));
   }
 

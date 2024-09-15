@@ -82,6 +82,12 @@ export const authApis = apis.injectEndpoints({
       onQueryStarted,
       invalidatesTags: ["User", "Auth"],
     }),
+    getRandomUserProfile: builder.query({
+      query: (userId) => ({
+        url: `user/${userId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -90,10 +96,10 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
-  useVerifyEmailMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useUpdateUserMutation,
   useUpdatePasswordMutation,
   useCreatorRequestMutation,
+  useGetRandomUserProfileQuery,
 } = authApis;

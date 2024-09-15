@@ -12,7 +12,7 @@ export const uploadFileToCloudinary = async (file) => {
     });
     return { url: result.secure_url, public_id: result.public_id };
   } catch (error) {
-    console.log("Error uploading image to Cloudinary:", error);
+    // console.log("Error uploading image to Cloudinary:", error);
     return new ApiError("Error uploading image to Cloudinary", 500);
   }
 };
@@ -22,10 +22,10 @@ export const deleteFileFromCloudinary = async (publicId) => {
     const result = await cloudinary.uploader.destroy(publicId, {
       resource_type: "image",
     });
-    console.log("success", result);
+    // console.log("success", result);
     return result;
   } catch (error) {
-    console.log("Error deleting image from Cloudinary:", error);
+    // console.log("Error deleting image from Cloudinary:", error);
     return null;
   }
 };
@@ -46,7 +46,7 @@ export const uploadMultipleFilesToCloudinary = async (files) => {
     const uploadResults = await Promise.all(uploadPromises);
     return uploadResults; // Return an array of all upload results
   } catch (error) {
-    console.log("Error uploading images to Cloudinary:", error);
+    // console.log("Error uploading images to Cloudinary:", error);
     return new ApiError("Error uploading images to Cloudinary", 500);
   }
 };

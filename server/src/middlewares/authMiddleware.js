@@ -14,8 +14,6 @@ const protect = TryCatch(async (req, res, next) => {
   // } else if (req.cookies.token) {
   // }
   token = req.cookies.Token;
-  console.log(token);
-  console.log(req.cookies);
 
   if (!token) {
     return next(

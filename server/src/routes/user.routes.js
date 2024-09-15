@@ -6,6 +6,7 @@ import {
   updateMe,
   deleteMe,
   requestCreatorRole,
+  getUserProfile,
 } from "../controllers/user.controller.js";
 import { requestCreatorRoleValidator, validate } from "../lib/validator.js";
 
@@ -22,5 +23,7 @@ router.post(
   validate,
   requestCreatorRole
 );
+
+router.get("/:userId", getUserProfile);
 
 export default router;

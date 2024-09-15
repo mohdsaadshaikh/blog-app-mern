@@ -156,9 +156,9 @@ const createBlog = TryCatch(async (req, res, next) => {
           public_id: result.public_id,
           url: result.url,
         });
-        console.log(`Successfully uploaded ${file.originalname}`);
+        // console.log(`Successfully uploaded ${file.originalname}`);
       } catch (error) {
-        console.error("Error uploading image to Cloudinary:", error);
+        // console.error("Error uploading image to Cloudinary:", error);
       }
     }
 
@@ -166,8 +166,8 @@ const createBlog = TryCatch(async (req, res, next) => {
     await blog.save();
   }
 
-  console.log(req.body);
-  console.log(req.files);
+  // console.log(req.body);
+  // console.log(req.files);
 
   res.status(201).json({
     status: "success",
@@ -193,7 +193,7 @@ const updateBlog = TryCatch(async (req, res, next) => {
         url: result.url,
       };
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return next(new ApiError("Error uploading image to Cloudinary", 500));
     }
   }
@@ -207,9 +207,9 @@ const updateBlog = TryCatch(async (req, res, next) => {
           public_id: result.public_id,
           url: result.url,
         });
-        console.log(`Successfully uploaded ${file.originalname}`);
+        // console.log(`Successfully uploaded ${file.originalname}`);
       } catch (error) {
-        console.error("Error uploading image to Cloudinary:", error);
+        // console.error("Error uploading image to Cloudinary:", error);
       }
     }
   }

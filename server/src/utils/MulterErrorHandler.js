@@ -2,7 +2,7 @@ import multer from "multer";
 import { ApiError } from "../utils/ApiError.js";
 
 const handleMulterError = (err, next, maxFiles) => {
-  console.log(err);
+  // console.log(err);
   if (err instanceof multer.MulterError) {
     // if (!["file", "files"].includes(err.field)) {
     if (err.field !== ("file" || "files")) {

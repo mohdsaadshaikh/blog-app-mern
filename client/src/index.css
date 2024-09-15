@@ -7,13 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* *,
-*::before,
-::after {
-  margin: 0;
-  padding: 0;
-} */
-
 @font-face {
   font-family: "NoeDisplayRegular";
   src: url("/fonts/FontsFree-Net-Noe-Display-Medium.ttf") format("truetype");
@@ -65,11 +58,6 @@ body {
   left: 0 !important;
   width: 100% !important;
   height: 4px !important; /* Ensure height is applied */
-}
-
-.custom-tabview .p-tabview-nav .p-tabview-nav-item.p-highlight {
-  background-color: orange; /* Highlight color for active tab */
-  color: white;
 }
 
 .font-regular-logo {

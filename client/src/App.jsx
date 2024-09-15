@@ -76,7 +76,7 @@ const App = () => {
                 <Route path="/" element={<Blog />} />
                 <Route path="/write" element={<CreateBlog />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/profile/settings" element={<Settings />} />
                 <Route path="/creator-request" element={<CreatorRequest />} />
                 <Route path="/change-password" element={<ChangePassword />} />

@@ -53,7 +53,6 @@ const handleRole = TryCatch(async (req, res, next) => {
       name: roleRequest.userId.name,
     });
   } catch (error) {
-    console.log(error);
     return next(new ApiError("Error sending role request status email", 500));
   }
 

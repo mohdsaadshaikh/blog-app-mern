@@ -26,7 +26,7 @@ const handleJWTError = () =>
   new ApiError("Invalid Tokin. Please Login again", 401);
 
 const sendErrorDev = (err, req, res) => {
-  console.log(err);
+  // console.log(err);
   if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -47,7 +47,7 @@ const sendErrorProd = (err, req, res) => {
       });
     } else {
       // For unhandled errors
-      console.error("ERROR 💥", err);
+      // console.error("ERROR 💥", err);
 
       return res.status(500).json({
         status: "error",

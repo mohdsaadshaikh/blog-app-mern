@@ -50,7 +50,7 @@ const Header = () => {
       label: "Profile",
       icon: "pi pi-user",
       command: () => {
-        navigate("/profile");
+        navigate(`/profile/${data?.data?._id}`);
       },
     },
     {
