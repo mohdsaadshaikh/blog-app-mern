@@ -24,13 +24,7 @@ const handleRole = TryCatch(async (req, res, next) => {
       { _id: roleRequest.userId._id },
       {
         $unset: {
-          age: "",
-          phone: "",
-          address: "",
-          twitter: "",
-          github: "",
-          linkedin: "",
-          instagram: "",
+          creatorInfo: null,
         },
       }
     );

@@ -66,6 +66,14 @@ const Header = () => {
       command: logoutHandler,
     },
     {
+      label: "Delete Account",
+      icon: "pi pi-exclamation-triangle",
+      className: "text-red-800",
+      command: () => {
+        navigate("/profile/delete-account");
+      },
+    },
+    {
       label: data?.data?.name,
       className: "text-sm pt-2 border-t border-gray-300 unset",
     },

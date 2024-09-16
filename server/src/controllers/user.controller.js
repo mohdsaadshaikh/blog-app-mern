@@ -196,10 +196,10 @@ const requestCreatorRole = TryCatch(async (req, res, next) => {
   };
   await user.save();
 
-  const genUrl = generateTokenUrl(
-    req,
-    `/admin/handle-user-role/${roleRequest._id}`
-  );
+  // const genUrl = generateTokenUrl(
+  //   req,
+  //   `/admin/handle-user-role/${roleRequest._id}`
+  // );
 
   try {
     await sendEmail(
@@ -208,7 +208,8 @@ const requestCreatorRole = TryCatch(async (req, res, next) => {
       "roleRequest",
       {
         name: user.name,
-        url: genUrl,
+        // url: genUrl,
+        url: `http://localhost:5173/handle-request/${roleRequest._id}`,
         reason,
         age,
         phone,

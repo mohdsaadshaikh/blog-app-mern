@@ -71,7 +71,7 @@ const getAllBlog = TryCatch(async (req, res, next) => {
       .limit(limitation)
       .populate({
         path: "author",
-        select: "name avatar role",
+        select: "name avatar role bio",
       });
   }
 

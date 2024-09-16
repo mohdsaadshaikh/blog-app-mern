@@ -18,6 +18,8 @@ import {
   ResetPassword,
 } from "./screens/authentication/password/index";
 import ChangePassword from "./screens/authentication/password/ChangePassword";
+import RoleRequestHandle from "./screens/authentication/RoleRequestHandle";
+import DeleteMe from "./screens/profile/DeleteMe";
 
 const Auth = lazy(() => import("./screens/authentication/Auth"));
 const ErrorPage = lazy(() => import("./Components/ErrorPage"));
@@ -78,7 +80,12 @@ const App = () => {
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/profile/settings" element={<Settings />} />
+                <Route path="/profile/delete-account" element={<DeleteMe />} />
                 <Route path="/creator-request" element={<CreatorRequest />} />
+                <Route
+                  path="/handle-request/:id"
+                  element={<RoleRequestHandle />}
+                />
                 <Route path="/change-password" element={<ChangePassword />} />
               </Route>
             )}

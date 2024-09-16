@@ -96,6 +96,12 @@ userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
 };
 
 userSchema.pre(/^find/, function (next) {
+  // Skip filtering if 'includeInactive' flag is passed
+  if (this.options.includeInactive) {
+    return next();
+  }
+
+  // Default: Only find active users
   this.find({ active: { $ne: false } });
   next();
 });

@@ -3,10 +3,13 @@ import { Avatar } from "primereact/avatar";
 import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import UserAvatar from "./Avatar";
+import React, { useRef } from "react";
+import { OverlayPanel } from "primereact/overlaypanel";
 
 const BlogCard = ({ blog }) => {
   const { title, content, author, views, coverImage, createdAt, likes } = blog;
 
+  const op = useRef(null);
   const navigate = useNavigate();
 
   const handleViewBlog = () => {
@@ -16,21 +19,52 @@ const BlogCard = ({ blog }) => {
   return (
     <div className="flex flex-row justify-between select-none items-center py-2 border-b cursor-default w-[700px] max-sm:w-full md-px-2 my-2">
       <div className="flex flex-col justify-between h-full w-4/6 space-y-3">
-        <Link to={`/profile/${author?._id}`}>
-          <div className="flex items-center space-x-2">
-            <div className="w-[25px] h-[25px] rounded-full hover:opacity-90 overflow-hidden flex items-center justify-center bg-gray-200">
-              <UserAvatar
-                image={author?.avatar?.url}
-                name={author?.name}
-                avatarSize="w-full h-full"
-                spanSize="text-base"
-              />
-            </div>
-            <span className="text-gray-700 hover:underline cursor-pointer text-[13px]">
-              {author?.name}
-            </span>
+        {/* <Link to={`/profile/${author?._id}`}> */}
+        <div className="flex items-center space-x-2">
+          <div className="w-[25px] h-[25px] rounded-full hover:opacity-90 overflow-hidden flex items-center justify-center bg-gray-200">
+            <UserAvatar
+              image={author?.avatar?.url}
+              name={author?.name}
+              avatarSize="w-full h-full"
+              spanSize="text-base"
+            />
           </div>
-        </Link>
+          <span
+            onMouseEnter={(e) => op.current.toggle(e)}
+            className="text-gray-700 hover:underline cursor-pointer text-[13px]"
+          >
+            {author?.name}
+          </span>
+          <OverlayPanel ref={op}>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-6">
+                <div className="w-[60px] h-[60px] rounded-full overflow-hidden flex items-center justify-center bg-gray-200 shadow-md">
+                  <UserAvatar
+                    image={author?.avatar?.url}
+                    name={author?.name}
+                    avatarSize="w-full h-full"
+                    spanSize="text-6xl"
+                  />
+                </div>
+                <div className="text-sm text-black flex gap-2">
+                  {author?.role === "Admin" ? (
+                    <i className="pi pi-user" />
+                  ) : (
+                    <i className="pi pi-user-edit" />
+                  )}
+                  <span>{author?.role}</span>
+                </div>
+              </div>
+              <Link to={`/profile/${author?._id}`}>
+                <h4 className="text-lg text-black hover:underline cursor-pointer">
+                  {author?.name}
+                </h4>
+              </Link>
+              <p className="text-sm">{author?.bio}</p>
+            </div>
+          </OverlayPanel>
+        </div>
+        {/* </Link> */}
         <h2
           onClick={handleViewBlog}
           className="text-2xl max-md:text-base hover:underline cursor-pointer font-blog-title font-bold text-black"

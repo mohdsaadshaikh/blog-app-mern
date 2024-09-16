@@ -54,7 +54,6 @@ export const authApis = apis.injectEndpoints({
       onQueryStarted,
       invalidatesTags: ["User", "Auth"],
     }),
-
     updateUser: builder.mutation({
       query: (data) => ({
         url: `user/updateMe`,
@@ -82,11 +81,28 @@ export const authApis = apis.injectEndpoints({
       onQueryStarted,
       invalidatesTags: ["User", "Auth"],
     }),
+    handleCreatorRequest: builder.mutation({
+      query: ({ status, id }) => ({
+        url: `/admin/handle-user-role/${id}`,
+        method: "PATCH",
+        body: { status },
+      }),
+      onQueryStarted,
+      invalidatesTags: ["User", "Auth"],
+    }),
     getRandomUserProfile: builder.query({
       query: (userId) => ({
         url: `user/${userId}`,
         method: "GET",
       }),
+    }),
+    deleteMe: builder.mutation({
+      query: () => ({
+        url: `user/deleteMe`,
+        method: "PATCH",
+      }),
+      onQueryStarted,
+      invalidatesTags: ["User", "Auth"],
     }),
   }),
 });
@@ -101,5 +117,7 @@ export const {
   useUpdateUserMutation,
   useUpdatePasswordMutation,
   useCreatorRequestMutation,
+  useHandleCreatorRequestMutation,
   useGetRandomUserProfileQuery,
+  useDeleteMeMutation,
 } = authApis;

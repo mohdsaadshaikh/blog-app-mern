@@ -26,7 +26,7 @@ const ChangePassword = () => {
 
   return (
     <div className="min-h-screen flex mt-12 justify-center ">
-      <div className="bg-white p-10 h-3/5 shadow-2xl rounded-lg w-full max-w-lg">
+      <div className="bg-white p-10 h-3/5 shadow-2xl rounded-lg w-full max-w-md">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Change Password
         </h2>
@@ -68,19 +68,19 @@ const ChangePassword = () => {
           <div className="flex justify-between items-center space-x-4">
             <button
               type="button"
-              className="w-1/2 bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all duration-300"
-              onClick={() => navigate("/")}
+              className="w-1/3 bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition-all duration-300"
+              onClick={() => navigate("/profile/settings")}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`w-1/2 bg-gray-800 text-white py-2 px-4 rounded hover:bg-black transition-all duration-300 ${
+              className={`w-1/3 bg-gray-800 text-white py-2 px-4 rounded hover:bg-black transition-all duration-300 ${
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isLoading}
             >
-              {isLoading ? "Updating..." : "Save Changes"}
+              Change
             </button>
           </div>
         </form>

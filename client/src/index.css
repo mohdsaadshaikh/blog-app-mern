@@ -120,3 +120,11 @@ body {
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
+
+.p-inplace-content {
+  display: flex !important;
+  height: 40px !important;
+  background-color: #111827;
+  border-radius: 4px !important;
+  color: #ffff !important;
+}

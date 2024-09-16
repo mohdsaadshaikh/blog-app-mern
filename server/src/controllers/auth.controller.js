@@ -81,7 +81,9 @@ const registerUser = TryCatch(async (req, res, next) => {
 const login = TryCatch(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select("+password  +active");
+  const user = await User.findOne({ email })
+    .select("+password +active")
+    .setOptions({ includeInactive: true });
 
   if (!user || !(await user.comparePassword(password))) {
     return next(new ApiError("Invalid email or password", 401));

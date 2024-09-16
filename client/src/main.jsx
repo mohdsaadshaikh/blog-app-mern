@@ -4,12 +4,15 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/index.js";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { PrimeReactProvider } from "primereact/api";
 
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import "quill/dist/quill.core.css";
+
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primeicons/primeicons.css";
+
 import "nprogress/nprogress.css";
 
 createRoot(document.getElementById("root")).render(

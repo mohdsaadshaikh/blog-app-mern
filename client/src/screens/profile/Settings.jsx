@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Input from "../../components/Input";
 import UserAvatar from "../../Components/Avatar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
 
 const Settings = () => {
   const [updateUser] = useUpdateUserMutation();
@@ -37,6 +38,7 @@ const Settings = () => {
     try {
       console.log(data);
       const formData = new FormData();
+      formData.append("name", data.name);
       formData.append("bio", data.bio);
       formData.append("age", data.age);
       formData.append("phone", data.phone);
@@ -95,7 +97,27 @@ const Settings = () => {
                 )}
               </div>
 
-              <h3 className="text-xl">{currentUser?.name}</h3>
+              {/* <h3 className="text-xl">{currentUser?.name}</h3> */}
+              <div className="card">
+                <Inplace closable>
+                  <InplaceDisplay>
+                    {currentUser?.name || "Click to Edit"}
+                  </InplaceDisplay>
+                  <InplaceContent className="flex">
+                    <Input
+                      register={register("name")}
+                      error={errors.bio?.message}
+                      className="w-52"
+                    />
+                  </InplaceContent>
+                </Inplace>
+              </div>
+              <Link to="/change-password">
+                <button className="flex gap-2 py-2 px-4 rounded-md border-2 text-xs hover:bg-black hover:text-white transition-all duration-300">
+                  Change Password
+                  <i className="pi pi-external-link text-xs"></i>
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -151,12 +173,12 @@ const Settings = () => {
                   />
                 </>
               )}
-              <div className="flex justify-between pt-3">
+              <div className="flex justify-between mb-[-15px]">
                 <button
-                  type="reset"
+                  type="button"
                   className="w-1/3 bg-gray-200 text-black py-2 px-4 rounded hover:bg-gray-300 transition-all duration-300"
                 >
-                  cancel
+                  <Link to="/">cancel</Link>
                 </button>
                 <button
                   type="submit"
