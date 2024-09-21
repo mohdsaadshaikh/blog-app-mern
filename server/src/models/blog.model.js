@@ -47,7 +47,7 @@ const blogSchema = new Schema(
     // },
     tags: {
       type: [String],
-      required: [true, "Add tags to your blog"],
+      // required: [true, "Add tags to your blog"],
       enum: BLOG_TAGS,
     },
     author: {

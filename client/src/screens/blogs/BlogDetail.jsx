@@ -8,12 +8,14 @@ import { format } from "date-fns";
 import Comment from "../comments";
 import { useState } from "react";
 import UserAvatar from "../../Components/Avatar";
+import parse from "html-react-parser";
 
 const BlogDetail = () => {
   const { id } = useParams();
   const { data } = useGetBlogByIdQuery(id);
   const { data: moreBlogs } = useGetAuthorBlogsQuery(id);
   const blog = data?.data;
+  console.log(blog);
 
   const [visibleRight, setVisibleRight] = useState(false);
 
@@ -91,7 +93,7 @@ const BlogDetail = () => {
           </div>
         </div>
         <p className="text-gray-800 text-lg font-blog-content font-medium mt-4">
-          {blog?.content}
+          {parse(blog?.content || "")}
         </p>
         <div className="">
           {blog?.tags?.map((tag, i) => {

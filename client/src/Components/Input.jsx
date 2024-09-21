@@ -9,7 +9,7 @@ const Input = ({
   return (
     <div className="flex flex-col mb-4">
       {label && (
-        <label className="block text-md font-medium leading-6 text-gray-900">
+        <label className="block text-md font-medium leading-6 text-gray-900 mb-1">
           {label}
         </label>
       )}

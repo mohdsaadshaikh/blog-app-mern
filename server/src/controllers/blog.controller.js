@@ -128,7 +128,9 @@ const getOneBlog = TryCatch(async (req, res, next) => {
 });
 
 const createBlog = TryCatch(async (req, res, next) => {
-  if (!req.body.author) req.body.author = req.user._id;
+  // console.log("Request Body:", req.body);
+  // console.log("Uploaded Files:", req.file, req.files);
+  req.body.author = req.user._id;
   const blog = await Blog.create(req.body);
 
   if (req.file) {
@@ -148,26 +150,29 @@ const createBlog = TryCatch(async (req, res, next) => {
   }
 
   if (req.files && req.files.length > 0) {
-    const images = [];
-    for (const file of req.files) {
+    const imageUploadPromises = req.files.map(async (file) => {
       try {
         const result = await uploadMultipleFilesToCloudinary(file);
-        images.push({
-          public_id: result.public_id,
-          url: result.url,
-        });
-        // console.log(`Successfully uploaded ${file.originalname}`);
+        return { public_id: result.public_id, url: result.url };
       } catch (error) {
-        // console.error("Error uploading image to Cloudinary:", error);
+        console.error(
+          `Error uploading ${file.originalname} to Cloudinary:`,
+          error
+        );
+        return null;
       }
+    });
+
+    const uploadedImages = await Promise.all(imageUploadPromises);
+
+    const successfulUploads = uploadedImages.filter((image) => image !== null);
+
+    if (successfulUploads.length > 0) {
+      blog.images.push(...successfulUploads);
     }
 
-    blog.images = images;
     await blog.save();
   }
-
-  // console.log(req.body);
-  // console.log(req.files);
 
   res.status(201).json({
     status: "success",
@@ -197,21 +202,28 @@ const updateBlog = TryCatch(async (req, res, next) => {
       return next(new ApiError("Error uploading image to Cloudinary", 500));
     }
   }
-
   if (req.files && req.files.length > 0) {
-    const images = [];
-    for (const file of req.files) {
+    const imageUploadPromises = req.files.map(async (file) => {
       try {
         const result = await uploadMultipleFilesToCloudinary(file);
-        images.push({
-          public_id: result.public_id,
-          url: result.url,
-        });
-        // console.log(`Successfully uploaded ${file.originalname}`);
+        return { public_id: result.public_id, url: result.url };
       } catch (error) {
-        // console.error("Error uploading image to Cloudinary:", error);
+        console.error(
+          `Error uploading ${file.originalname} to Cloudinary:`,
+          error
+        );
+        return null;
       }
+    });
+
+    const uploadedImages = await Promise.all(imageUploadPromises);
+
+    const successfulUploads = uploadedImages.filter((image) => image !== null);
+
+    if (successfulUploads.length > 0) {
+      blog.images.push(...successfulUploads);
     }
+    await blog.save();
   }
 
   const blogToUpdate = await Blog.findOneAndUpdate(
@@ -302,9 +314,11 @@ const getAuthorBlogs = TryCatch(async (req, res, next) => {
 
   const authorId = blog.author;
 
-  const authorBlogs = await Blog.find({ author: authorId }).sort({
-    createdAt: -1,
-  });
+  const authorBlogs = await Blog.find({ author: authorId })
+    .sort({
+      createdAt: -1,
+    })
+    .limit(4);
 
   if (authorBlogs.length === 0) {
     return next(new ApiError("No other blogs found by this author", 404));

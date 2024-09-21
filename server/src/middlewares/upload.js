@@ -3,7 +3,6 @@ import { maxFileSize } from "../lib/helper.js";
 import handleMulterError from "../utils/MulterErrorHandler.js";
 
 const multerUpload = multer({
-  // storage, // Use disk storage for temporary files
   limits: {
     fieldSize: maxFileSize,
   },
@@ -12,14 +11,16 @@ const multerUpload = multer({
 export const singleFile = (fieldName) => (req, res, next) => {
   multerUpload.single(fieldName)(req, res, (err) => {
     if (err) return handleMulterError(err, next, 1);
+    if (err) return console.log(err);
     next();
   });
 };
 
 export const multipleFiles = () => (req, res, next) => {
   multerUpload.array("images", 5)(req, res, (err) => {
-    // if (err) return handleMulterError(err, next, 5);
-    handleMulterError(err, next, 5);
+    if (err) return handleMulterError(err, next, 5);
+    if (err) return console.log(err);
+    // handleMulterError(err, next, 5);
     next();
   });
 };

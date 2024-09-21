@@ -30,23 +30,37 @@ export const deleteFileFromCloudinary = async (publicId) => {
   }
 };
 
-export const uploadMultipleFilesToCloudinary = async (files) => {
+// export const uploadMultipleFilesToCloudinary = async (files) => {
+//   try {
+//     const uploadPromises = files.map(async (file) => {
+//       const base64Data = getBase64(file);
+//       const result = cloudinary.uploader.upload(base64Data, {
+//         public_id: uuid(),
+//         resource_type: "image",
+//       });
+//       return { url: result.secure_url, public_id: result.public_id };
+//     });
+
+//     const uploadResults = await Promise.all(uploadPromises);
+//     console.log(uploadResults);
+//     return uploadResults;
+//   } catch (error) {
+//     return new ApiError("Error uploading images to Cloudinary", 500);
+//   }
+// };
+
+export const uploadMultipleFilesToCloudinary = async (file) => {
   try {
-    // Map each file to an upload promise
-    const uploadPromises = files.map(async (file) => {
-      const base64Data = await getBase64(file); // Convert file to base64
-      const result = await cloudinary.uploader.upload(base64Data, {
-        public_id: uuid(),
-        resource_type: "image",
-      });
-      return { url: result.secure_url, public_id: result.public_id }; // Return upload result
+    const base64Data = await getBase64(file); // Corrected await
+    const result = await cloudinary.uploader.upload(base64Data, {
+      public_id: uuid(),
+      resource_type: "image",
     });
 
-    // Wait for all files to be uploaded
-    const uploadResults = await Promise.all(uploadPromises);
-    return uploadResults; // Return an array of all upload results
+    // Return the result from Cloudinary if successful
+    return { url: result.secure_url, public_id: result.public_id };
   } catch (error) {
-    // console.log("Error uploading images to Cloudinary:", error);
-    return new ApiError("Error uploading images to Cloudinary", 500);
+    console.error("Cloudinary upload error:", error); // Debugging error
+    throw new ApiError("Error uploading images to Cloudinary", 500);
   }
 };

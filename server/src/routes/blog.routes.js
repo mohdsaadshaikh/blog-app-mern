@@ -28,10 +28,8 @@ router
     protect,
     restrictTo("Admin", "Creator"),
     singleFile("coverImage"),
-    multipleFiles,
+    // multipleFiles(),
     preprocessTags,
-    createBlogValidator(),
-    validate,
     createBlog
   )
   .get(getAllBlog);
@@ -42,7 +40,7 @@ router
     protect,
     restrictTo("Admin", "Creator"),
     singleFile("coverImage"),
-    multipleFiles,
+    // multipleFiles,
     updateBlog
   )
   .delete(protect, restrictTo("Admin", "Creator"), deleteBlog);

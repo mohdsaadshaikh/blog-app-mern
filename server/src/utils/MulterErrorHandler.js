@@ -5,7 +5,7 @@ const handleMulterError = (err, next, maxFiles) => {
   // console.log(err);
   if (err instanceof multer.MulterError) {
     // if (!["file", "files"].includes(err.field)) {
-    if (err.field !== ("file" || "files")) {
+    if (err.field !== "file" && err.field !== "files") {
       return next(
         new ApiError(`Invalid file field, please check the file field`, 400)
       );
@@ -31,7 +31,7 @@ const handleMulterError = (err, next, maxFiles) => {
 
     return next(new ApiError("File upload error", 400));
   } else if (err) {
-    return next(new ApiError(err.message, 400));
+    return next(new ApiError(err, 400));
   }
 };
 

@@ -5,32 +5,7 @@ import { Sidebar } from "primereact/sidebar";
 import { useState } from "react";
 import BlogCard from "../../Components/BlogCard";
 import { useGetBlogsQuery } from "../../redux/apis/blogApi";
-
-const BLOG_TAGS = [
-  "Artificial Intelligence",
-  "Machine Learning",
-  "Cloud Computing",
-  "Cybersecurity",
-  "Data Science",
-  "Web Development",
-  "Mobile App Development",
-  "DevOps",
-  "Networking",
-  "Database Management",
-  "Software Engineering",
-  "IT Project Management",
-  "Blockchain",
-  "Internet of Things (IoT)",
-  "Virtual Reality (VR)",
-  "Augmented Reality (AR)",
-  "Testing",
-  "JavaScript",
-  "Python",
-  "Java",
-  "C++",
-  "HTML",
-  "CSS",
-];
+import { BLOG_TAGS } from "../../utils/blogTags";
 
 const sortOptions = [
   { label: "Latest", value: "latest" },
