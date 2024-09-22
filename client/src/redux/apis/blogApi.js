@@ -28,10 +28,10 @@ export const blogApis = apis.injectEndpoints({
       invalidatesTags: ["Blogs"],
     }),
     updateBlog: builder.mutation({
-      query: ({ id, data }) => ({
+      query: ({ id, body }) => ({
         url: `blogs/${id}`,
         method: "PATCH",
-        body: data,
+        body: body,
       }),
       onQueryStarted,
       invalidatesTags: ["Blogs"],

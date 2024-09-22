@@ -52,6 +52,13 @@ const BlogCard = ({ blog }) => {
 
   const items = [
     {
+      label: "Edit",
+      icon: "pi pi-pencil",
+      command: () => {
+        navigate(`/${blog._id}/edit`);
+      },
+    },
+    {
       label: "Delete",
       icon: "pi pi-trash",
       command: handleDeleteBlog,

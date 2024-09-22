@@ -20,6 +20,7 @@ import {
 import ChangePassword from "./screens/authentication/password/ChangePassword";
 import RoleRequestHandle from "./screens/authentication/RoleRequestHandle";
 import DeleteMe from "./screens/profile/DeleteMe";
+import EditBlog from "./screens/blogs/EditBlog";
 
 const Auth = lazy(() => import("./screens/authentication/Auth"));
 const ErrorPage = lazy(() => import("./Components/ErrorPage"));
@@ -77,6 +78,7 @@ const App = () => {
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<Blog />} />
                 <Route path="/write" element={<CreateBlog />} />
+                <Route path="/:id/edit" element={<EditBlog />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/profile/:id" element={<Profile />} />
                 <Route path="/profile/settings" element={<Settings />} />
