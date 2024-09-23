@@ -10,11 +10,14 @@ import {
   useReplyCommentMutation,
 } from "../redux/apis/commentApi";
 import { toast } from "react-toastify";
+import UserAvatar from "./Avatar";
 
-const CommentBox = ({ blogId, commentsData }) => {
+const CommentBox = ({ blogId, commentsData, refetch }) => {
   const [replyText, setReplyText] = useState("");
   const [visibleReply, setVisibleReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+
+  console.log(commentsData);
 
   const currentUser = useSelector((state) => state.Authentication.userData);
 
@@ -26,6 +29,7 @@ const CommentBox = ({ blogId, commentsData }) => {
   const handleLikeComment = async (commentId) => {
     try {
       await likeComment({ blogId, commentId }).unwrap();
+      // refetch();
     } catch (error) {
       console.error("Failed to like the comment:", error);
     }
@@ -35,6 +39,7 @@ const CommentBox = ({ blogId, commentsData }) => {
     try {
       await deleteComment({ blogId, commentId });
       toast.success("Comment deleted successfully");
+      await refetch();
     } catch (error) {
       console.error("Failed to delete the comment:", error);
     }
@@ -70,18 +75,26 @@ const CommentBox = ({ blogId, commentsData }) => {
   return (
     <div className="flex gap-2 flex-col border-t pt-6 pb-2">
       <div className="flex justify-between">
-        <div className="flex items-center gap-4">
-          <img
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
+            <UserAvatar
+              image={commentsData.user?.avatar?.url}
+              name={commentsData.user?.name}
+              avatarSize="w-full h-full"
+              spanSize="text-base"
+            />
+          </div>
+          {/* <img
             src={commentsData.user?.avatar?.url}
             alt={commentsData.user?.name}
             className="w-8 h-8 rounded-full object-cover"
-          />
+          /> */}
           <div className="flex flex-col">
             <span className="text-black hover:underline cursor-pointer text-[15px]">
               {commentsData.user?.name}
             </span>
             <span className="text-gray-600 text-[13px]">
-              {commentsData.createdAt
+              {commentsData?.createdAt
                 ? format(new Date(commentsData.createdAt), "MMM dd, yyyy")
                 : ""}
             </span>
@@ -92,7 +105,7 @@ const CommentBox = ({ blogId, commentsData }) => {
         )}
       </div>
       <div className="flex items-start gap-4">
-        <p className="text-black text-base">{commentsData.comment}</p>
+        <p className="text-black text-sm">{commentsData.comment}</p>
       </div>
       <div className="flex justify-between w-full">
         <div className="flex gap-4">

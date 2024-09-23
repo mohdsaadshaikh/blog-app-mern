@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 const BlogDetail = () => {
   const { id } = useParams();
-  const { data } = useGetBlogByIdQuery(id);
+  const { data, refetch } = useGetBlogByIdQuery(id);
   const { data: moreBlogs } = useGetAuthorBlogsQuery(id);
   const blog = data?.data;
 
@@ -78,9 +78,11 @@ const BlogDetail = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-black hover:underline cursor-pointer text-[15px]">
-              {blog?.author?.name}
-            </span>
+            <Link to={`/profile/${blog?.author?._id}`}>
+              <span className="text-black hover:underline cursor-pointer text-[15px]">
+                {blog?.author?.name}
+              </span>
+            </Link>
             <div className="flex gap-4">
               <span className="text-gray-600 text-[13px]">
                 {readingTime} min
@@ -137,6 +139,7 @@ const BlogDetail = () => {
               setVisibleRight={setVisibleRight}
               data={blog?.comments}
               blogId={blog?._id}
+              refetch={refetch}
             />
           </div>
         </div>
