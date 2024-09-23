@@ -51,6 +51,15 @@ export const blogApis = apis.injectEndpoints({
       onQueryStarted,
       providesTags: ["Blogs"],
     }),
+    reactToblog: builder.mutation({
+      query: ({ blogId, reaction }) => ({
+        url: `blogs/${blogId}/react`,
+        method: "PATCH",
+        body: { reaction },
+      }),
+      onQueryStarted,
+      invalidatesTags: ["Blogs"],
+    }),
   }),
 });
 
@@ -61,4 +70,5 @@ export const {
   useUpdateBlogMutation,
   useDeleteBlogMutation,
   useGetAuthorBlogsQuery,
+  useReactToblogMutation,
 } = blogApis;

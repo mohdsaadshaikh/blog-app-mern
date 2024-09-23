@@ -2,22 +2,63 @@ import { Link, useParams } from "react-router-dom";
 import {
   useGetAuthorBlogsQuery,
   useGetBlogByIdQuery,
+  useReactToblogMutation,
 } from "../../redux/apis/blogApi";
 import { estimateReadingTime } from "../../utils/readingTime";
 import { format } from "date-fns";
 import Comment from "../comments";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserAvatar from "../../Components/Avatar";
 import parse from "html-react-parser";
+import { useDebouncedCallback } from "use-debounce";
+import { useSelector } from "react-redux";
 
 const BlogDetail = () => {
   const { id } = useParams();
   const { data } = useGetBlogByIdQuery(id);
   const { data: moreBlogs } = useGetAuthorBlogsQuery(id);
   const blog = data?.data;
-  console.log(blog);
+
+  const { _id } = useSelector((state) => state.Authentication?.userData);
 
   const [visibleRight, setVisibleRight] = useState(false);
+
+  const [reactToBlog] = useReactToblogMutation();
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+  const [isDisliked, setIsDisliked] = useState(false);
+  const [dislikesCount, setDislikesCount] = useState(0);
+
+  useEffect(() => {
+    if (data) {
+      setIsLiked(data.data.likes.includes(_id));
+      setIsDisliked(data.data.dislikes.includes(_id));
+      setLikesCount(data.data.likes.length);
+      setDislikesCount(data.data.dislikes.length);
+    }
+  }, [data, _id]);
+
+  const handleReaction = useDebouncedCallback(
+    async (reactionType) => {
+      try {
+        const response = await reactToBlog({
+          blogId: id,
+          reaction: reactionType,
+        }).unwrap();
+
+        setIsLiked(response.isLiked);
+        setIsDisliked(response.isDisliked);
+
+        setLikesCount(response?.likes?.length);
+        setDislikesCount(response?.dislikes?.length);
+      } catch (error) {
+        console.error("Failed to react to the blog:", error);
+      }
+    },
+    500,
+    { leading: true, trailing: false }
+  );
 
   const readingTime = blog?.content ? estimateReadingTime(blog.content) : 0;
 
@@ -56,17 +97,24 @@ const BlogDetail = () => {
 
         <img src={blog?.coverImage?.url} alt="dd" className="w-full" />
         <div className="flex border-y justify-between px-3 border-gray-200 py-3 text-gray-500">
-          <div className="flex gap-5 ">
+          <div className="flex gap-5 text-black">
             <div title="Like" className="cursor-pointer space-x-1">
-              <i className="pi pi-thumbs-up"></i>
-              <span>{blog?.likes.length}</span>
+              <i
+                className={`pi ${
+                  isLiked ? "pi-thumbs-up-fill" : "pi-thumbs-up"
+                }`}
+                onClick={() => handleReaction("like")}
+              ></i>
+              <span>{likesCount}</span>
             </div>
-            <div
-              title="Dislike"
-              className="cursor-pointer flex items-center gap-1"
-            >
-              <i className="pi pi-thumbs-down"></i>
-              <span>{blog?.dislikes.length}</span>
+            <div title="Dislike" className="cursor-pointer space-x-1">
+              <i
+                className={`pi ${
+                  isDisliked ? "pi-thumbs-down-fill" : "pi-thumbs-down"
+                }`}
+                onClick={() => handleReaction("dislike")}
+              ></i>
+              <span>{dislikesCount}</span>
             </div>
           </div>
           <div className="space-x-1">

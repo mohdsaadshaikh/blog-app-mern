@@ -142,11 +142,7 @@ const BlogCard = ({ blog }) => {
               <span>{views}</span>
             </div>
             <div onClick={handleViewBlog}>
-              <i
-                className={`cursor-pointer ${
-                  likes?.length > 0 ? "pi pi-thumbs-up-fill" : "pi pi-thumbs-up"
-                } text-sm m-1`}
-              ></i>
+              <i className="cursor-pointer pi pi-thumbs-up text-sm m-1"></i>
               <span>{likes?.length}</span>
             </div>
           </div>

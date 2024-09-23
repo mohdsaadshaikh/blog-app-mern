@@ -62,8 +62,7 @@ const EditBlog = () => {
       //     console.log(pair[0], pair[1]);
       //   }
 
-      const res = await updateBlog({ id, body: formData }).unwrap();
-      console.log(res);
+      await updateBlog({ id, body: formData }).unwrap();
       toast.success("Blog updated successfully!");
       navigate(`/blog/${id}`);
     } catch (error) {

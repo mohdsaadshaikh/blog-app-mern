@@ -28,7 +28,7 @@ const ErrorPage = lazy(() => import("./Components/ErrorPage"));
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.Authentication);
-  const { data, isLoading, isSuccess } = useGetUserProfileQuery();
+  const { data, isLoading, isSuccess, isFetching } = useGetUserProfileQuery();
 
   const isSomeQueryPending = useSelector(
     (state) =>
@@ -44,7 +44,7 @@ const App = () => {
     if (isSuccess) {
       dispatch(setAuthenticated({ userData: data?.data }));
     }
-  }, [isSuccess, data, dispatch]);
+  }, [isFetching, dispatch]);
 
   useEffect(() => {
     if (isLoading) {
@@ -55,7 +55,7 @@ const App = () => {
   }, [isLoading]);
 
   if (isLoading) {
-    return <Spinner />;
+    return;
   }
 
   return (

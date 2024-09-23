@@ -26,7 +26,8 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.5",
     "reading-time-estimator": "^1.11.0",
-    "theme-change": "^2.5.0"
+    "theme-change": "^2.5.0",
+    "use-debounce": "^10.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

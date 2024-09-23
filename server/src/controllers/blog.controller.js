@@ -300,6 +300,10 @@ const reactToblog = TryCatch(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "Reacted successfully",
+    likes: updatedBlog.likes,
+    dislikes: updatedBlog.dislikes,
+    isLiked: updatedBlog.likes.includes(userId),
+    isDisliked: updatedBlog.dislikes.includes(userId),
   });
 });
 
