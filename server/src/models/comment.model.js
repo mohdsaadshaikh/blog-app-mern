@@ -59,10 +59,15 @@ commentSchema.pre(/^find/, function (next) {
   this.populate({
     path: "user",
     select: "name avatar",
-  }).populate({
-    path: "replies.user",
-    select: "name avatar",
-  });
+  })
+    .populate({
+      path: "replies.user",
+      select: "name avatar",
+    })
+    .populate({
+      path: "replies",
+      select: "reply createdAt",
+    });
   next();
 });
 

@@ -107,9 +107,11 @@ const likeOnComment = TryCatch(async (req, res, next) => {
     return next(new ApiError("No comment found with this id", 404));
   }
 
+  const alreadyLiked = comment.likes.includes(userId);
+
   let likeDislike = {};
 
-  if (comment.likes.includes(userId)) {
+  if (alreadyLiked) {
     likeDislike = {
       $pull: { likes: userId },
       $inc: { likesCount: -1 },
@@ -129,10 +131,11 @@ const likeOnComment = TryCatch(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: comment.likes.includes(userId)
+    message: alreadyLiked
       ? "Comment unliked successfully"
       : "Comment liked successfully",
-    likesCount: updatedComment,
+    likes: updatedComment.likes,
+    isLiked: !alreadyLiked,
   });
 });
 

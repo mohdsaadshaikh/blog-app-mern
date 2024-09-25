@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SplitButton } from "primereact/splitbutton";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
@@ -11,13 +11,14 @@ import {
 } from "../redux/apis/commentApi";
 import { toast } from "react-toastify";
 import UserAvatar from "./Avatar";
+import { useDebouncedCallback } from "use-debounce";
 
 const CommentBox = ({ blogId, commentsData, refetch }) => {
   const [replyText, setReplyText] = useState("");
   const [visibleReply, setVisibleReply] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-
-  console.log(commentsData);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
 
   const currentUser = useSelector((state) => state.Authentication.userData);
 
@@ -26,14 +27,35 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
   const [replyComment, { isLoading }] = useReplyCommentMutation();
   const [likeComment] = useLikeCommentMutation();
 
-  const handleLikeComment = async (commentId) => {
+  // const handleLikeComment = async (commentId) => {
+  //   try {
+  //     await likeComment({ blogId, commentId }).unwrap();
+  //     // refetch();
+  //   } catch (error) {
+  //     console.error("Failed to like the comment:", error);
+  //   }
+  // };
+
+  console.log(commentsData);
+
+  const handleLikeComment = useDebouncedCallback(async (commentId) => {
     try {
-      await likeComment({ blogId, commentId }).unwrap();
-      // refetch();
+      const res = await likeComment({ blogId, commentId }).unwrap();
+      setIsLiked(res?.isLiked);
+      setLikesCount(res?.likes?.length);
+      refetch();
     } catch (error) {
-      console.error("Failed to like the comment:", error);
+      console.log(error);
+      toast.error("Error while liking Comment");
     }
-  };
+  });
+
+  useEffect(() => {
+    if (commentsData?.likes) {
+      setIsLiked(commentsData.likes.includes(currentUser._id));
+      setLikesCount(commentsData.likes.length);
+    }
+  }, [commentsData, currentUser]);
 
   const handleDeleteComment = async (commentId) => {
     try {
@@ -50,9 +72,9 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
       await replyComment({
         blogId,
         commentId,
-        data: replyText,
+        reply: replyText,
       });
-      setReplyText("");
+      await refetch();
       setVisibleReply(false);
     } catch (error) {
       console.error("Failed to reply:", error);
@@ -113,8 +135,10 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
             className="flex gap-1 items-center cursor-pointer"
             onClick={() => handleLikeComment(commentsData._id)}
           >
-            <i className="pi pi-thumbs-up"></i>
-            <span>{commentsData.likes?.length}</span>
+            <i
+              className={`pi ${isLiked ? "pi-thumbs-up-fill" : "pi-thumbs-up"}`}
+            ></i>
+            <span>{likesCount}</span>
           </div>
           <div
             className="flex gap-1 items-center cursor-pointer"

@@ -38,10 +38,10 @@ export const commentApis = apis.injectEndpoints({
       invalidatesTags: ["Comment"],
     }),
     replyComment: builder.mutation({
-      query: ({ blogId, commentId, data }) => ({
+      query: ({ blogId, commentId, reply }) => ({
         url: `blogs/${blogId}/comments/${commentId}/reply`,
         method: "PATCH",
-        body: data,
+        body: { reply },
       }),
       onQueryStarted,
       invalidatesTags: ["Comment"],
