@@ -100,21 +100,27 @@ const BlogDetail = () => {
         <img src={blog?.coverImage?.url} alt="dd" className="w-full" />
         <div className="flex border-y justify-between px-3 border-gray-200 py-3 text-gray-500">
           <div className="flex gap-5 text-black">
-            <div title="Like" className="cursor-pointer space-x-1">
+            <div
+              title="Like"
+              className="cursor-pointer space-x-1"
+              onClick={() => handleReaction("like")}
+            >
               <i
                 className={`pi ${
                   isLiked ? "pi-thumbs-up-fill" : "pi-thumbs-up"
                 }`}
-                onClick={() => handleReaction("like")}
               ></i>
               <span>{likesCount}</span>
             </div>
-            <div title="Dislike" className="cursor-pointer space-x-1">
+            <div
+              title="Dislike"
+              className="cursor-pointer space-x-1"
+              onClick={() => handleReaction("dislike")}
+            >
               <i
                 className={`pi ${
                   isDisliked ? "pi-thumbs-down-fill" : "pi-thumbs-down"
                 }`}
-                onClick={() => handleReaction("dislike")}
               ></i>
               <span>{dislikesCount}</span>
             </div>

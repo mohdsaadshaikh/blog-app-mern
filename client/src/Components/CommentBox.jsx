@@ -27,17 +27,6 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
   const [replyComment, { isLoading }] = useReplyCommentMutation();
   const [likeComment] = useLikeCommentMutation();
 
-  // const handleLikeComment = async (commentId) => {
-  //   try {
-  //     await likeComment({ blogId, commentId }).unwrap();
-  //     // refetch();
-  //   } catch (error) {
-  //     console.error("Failed to like the comment:", error);
-  //   }
-  // };
-
-  console.log(commentsData);
-
   const handleLikeComment = useDebouncedCallback(async (commentId) => {
     try {
       const res = await likeComment({ blogId, commentId }).unwrap();
@@ -45,10 +34,9 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
       setLikesCount(res?.likes?.length);
       refetch();
     } catch (error) {
-      console.log(error);
       toast.error("Error while liking Comment");
     }
-  });
+  }, 500);
 
   useEffect(() => {
     if (commentsData?.likes) {
@@ -64,6 +52,7 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
       await refetch();
     } catch (error) {
       console.error("Failed to delete the comment:", error);
+      toast.error("Failed to delete the comment");
     }
   };
 
@@ -75,9 +64,9 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
         reply: replyText,
       });
       await refetch();
-      setVisibleReply(false);
     } catch (error) {
       console.error("Failed to reply:", error);
+      toast.error("Failed to reply");
     }
   };
 
@@ -106,13 +95,8 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
               spanSize="text-base"
             />
           </div>
-          {/* <img
-            src={commentsData.user?.avatar?.url}
-            alt={commentsData.user?.name}
-            className="w-8 h-8 rounded-full object-cover"
-          /> */}
           <div className="flex flex-col">
-            <span className="text-black hover:underline cursor-pointer text-[15px]">
+            <span className="text-black text-[15px]">
               {commentsData.user?.name}
             </span>
             <span className="text-gray-600 text-[13px]">
@@ -204,7 +188,7 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
                 />
                 <div>
                   <span className="text-sm font-bold">{reply.user?.name}</span>
-                  <p className="text-gray-600 text-sm">{reply.reply}</p>
+                  <p className="text-black text-sm">{reply.reply}</p>
                   <span className="text-gray-500 text-xs">
                     {format(new Date(reply.createdAt), "MMM dd, yyyy")}
                   </span>
