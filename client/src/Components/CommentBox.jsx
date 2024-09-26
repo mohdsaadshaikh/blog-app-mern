@@ -19,6 +19,8 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
   const [showReplies, setShowReplies] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(commentsData.comment);
 
   const currentUser = useSelector((state) => state.Authentication.userData);
 
@@ -44,6 +46,22 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
       setLikesCount(commentsData.likes.length);
     }
   }, [commentsData, currentUser]);
+
+  const handleEditComment = async (commentId) => {
+    try {
+      await updateComment({
+        blogId,
+        commentId,
+        data: { comment: editedComment },
+      });
+      setIsEditing(false);
+      await refetch();
+      toast.success("Comment updated successfully");
+    } catch (error) {
+      console.error("Failed to edit the comment:", error);
+      toast.error("Failed to edit the comment");
+    }
+  };
 
   const handleDeleteComment = async (commentId) => {
     try {
@@ -74,7 +92,7 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
     {
       label: "Edit",
       icon: "pi pi-pencil",
-      command: () => console.log(`Editing comment: ${commentsData._id}`),
+      command: () => setIsEditing(!isEditing),
     },
     {
       label: "Delete",
@@ -111,8 +129,35 @@ const CommentBox = ({ blogId, commentsData, refetch }) => {
         )}
       </div>
       <div className="flex items-start gap-4">
-        <p className="text-black text-sm">{commentsData.comment}</p>
+        {isEditing ? (
+          <textarea
+            value={editedComment}
+            onChange={(e) => setEditedComment(e.target.value)}
+            rows={3}
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-gray-400 transition duration-200"
+          />
+        ) : (
+          <p className="text-black text-sm">{commentsData.comment}</p>
+        )}
       </div>
+
+      {isEditing ? (
+        <div className="flex justify-end gap-2">
+          <button
+            className="py-1 px-3 text-black rounded text-sm cursor-pointer hover:bg-gray-100"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </button>
+          <button
+            className="py-1 px-3 bg-gray-800 text-white rounded text-sm cursor-pointer hover:bg-gray-700"
+            onClick={() => handleEditComment(commentsData._id)}
+          >
+            Save
+          </button>
+        </div>
+      ) : null}
+
       <div className="flex justify-between w-full">
         <div className="flex gap-4">
           <div
