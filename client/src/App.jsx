@@ -44,7 +44,7 @@ const App = () => {
     if (isSuccess) {
       dispatch(setAuthenticated({ userData: data?.data }));
     }
-  }, [isFetching, dispatch, data?.data, isSuccess]);
+  }, [isFetching, dispatch]);
 
   useEffect(() => {
     if (isLoading) {
