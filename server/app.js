@@ -19,7 +19,7 @@ import { ApiError } from "./src/utils/ApiError.js";
 
 const app = express();
 
-// app.set("trust proxy", true);
+app.set("trust proxy", true);
 
 // Set security HTTP headers
 app.use(helmet());
