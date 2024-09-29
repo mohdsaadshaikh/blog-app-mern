@@ -1,5 +1,4 @@
 export const corsOptions = {
-  origin: "*", // This will allow all origins
   credentials: true,
 };
 
