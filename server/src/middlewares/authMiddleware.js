@@ -47,16 +47,16 @@ const protect = TryCatch(async (req, res, next) => {
 
 // optional brotect for getting view from user if its logged in
 const optionalProtect = TryCatch(async (req, res, next) => {
-  let token;
+  let token = req.cookies.Token;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.token) {
-    token = req.cookies.token;
-  }
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith("Bearer")
+  // ) {
+  //   token = req.headers.authorization.split(" ")[1];
+  // } else if (req.cookies.token) {
+  //   token = req.cookies.token;
+  // }
 
   if (token) {
     try {

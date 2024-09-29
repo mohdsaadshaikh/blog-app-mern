@@ -99,36 +99,42 @@ const BlogDetail = () => {
 
         <img src={blog?.coverImage?.url} alt="dd" className="w-full" />
         <div className="flex border-y justify-between px-3 border-gray-200 py-3 text-gray-500">
-          <div className="flex gap-5 text-black">
-            <div
-              title="Like"
-              className="cursor-pointer space-x-1"
-              onClick={() => handleReaction("like")}
-            >
-              <i
-                className={`pi ${
-                  isLiked ? "pi-thumbs-up-fill" : "pi-thumbs-up"
-                }`}
-              ></i>
-              <span>{likesCount}</span>
+          <div className="flex gap-6 text-black">
+            <div className="flex items-center gap-1 border-r border-black pr-6">
+              <i className="pi pi-eye"></i>
+              <span>{blog?.viewedBy?.length}</span>
             </div>
-            <div
-              title="Dislike"
-              className="cursor-pointer space-x-1"
-              onClick={() => handleReaction("dislike")}
-            >
-              <i
-                className={`pi ${
-                  isDisliked ? "pi-thumbs-down-fill" : "pi-thumbs-down"
-                }`}
-              ></i>
-              <span>{dislikesCount}</span>
+            <div className="flex gap-5">
+              <div
+                title="Like"
+                className="cursor-pointer space-x-1"
+                onClick={() => handleReaction("like")}
+              >
+                <i
+                  className={`pi ${
+                    isLiked ? "pi-thumbs-up-fill" : "pi-thumbs-up"
+                  }`}
+                ></i>
+                <span>{likesCount}</span>
+              </div>
+              <div
+                title="Dislike"
+                className="cursor-pointer space-x-1"
+                onClick={() => handleReaction("dislike")}
+              >
+                <i
+                  className={`pi ${
+                    isDisliked ? "pi-thumbs-down-fill" : "pi-thumbs-down"
+                  }`}
+                ></i>
+                <span>{dislikesCount}</span>
+              </div>
             </div>
           </div>
           <div className="space-x-1">
             <div
               title="Comments"
-              className="cursor-pointer space-x-1"
+              className="cursor-pointer space-x-1 text-black"
               onClick={() => setVisibleRight(true)}
             >
               <i className="pi pi-comment"></i>

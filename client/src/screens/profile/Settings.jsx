@@ -107,7 +107,7 @@ const Settings = () => {
                     <Input
                       register={register("name")}
                       error={errors.bio?.message}
-                      className="w-52"
+                      className="w-52 text-black"
                     />
                   </InplaceContent>
                 </Inplace>

@@ -44,7 +44,7 @@ const App = () => {
     if (isSuccess) {
       dispatch(setAuthenticated({ userData: data?.data }));
     }
-  }, [isFetching, dispatch]);
+  }, [isFetching, dispatch, data?.data, isSuccess]);
 
   useEffect(() => {
     if (isLoading) {
@@ -73,6 +73,7 @@ const App = () => {
                   path="/reset-password/:token"
                   element={<ResetPassword />}
                 />
+                <Route path="/blogs" element={<Blog />} />
               </>
             ) : (
               <Route path="/" element={<Layout />}>

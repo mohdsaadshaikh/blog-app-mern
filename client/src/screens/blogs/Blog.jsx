@@ -39,7 +39,7 @@ const Blog = () => {
   };
 
   return (
-    <div className="relative flex p-4 w-[100vw] bg-gray-50">
+    <div className="relative flex p-4 w-[100vw]">
       <div className="flex-1">
         <div className="my-6">
           <div className="flex flex-col gap-2 w-[100vw] items-center h-full px-4">

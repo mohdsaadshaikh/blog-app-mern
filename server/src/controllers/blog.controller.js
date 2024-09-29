@@ -107,7 +107,7 @@ const getOneBlog = TryCatch(async (req, res, next) => {
 
   let userIdentifier;
   if (req.user) {
-    userIdentifier = req.user._id.toString();
+    userIdentifier = req.user.id;
   } else {
     userIdentifier = req.ip;
   }
