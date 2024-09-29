@@ -28,7 +28,9 @@ const ErrorPage = lazy(() => import("./Components/ErrorPage"));
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.Authentication);
-  const { data, isLoading, isSuccess, isFetching } = useGetUserProfileQuery();
+  const { data, isLoading, isSuccess, isFetching, error } =
+    useGetUserProfileQuery();
+  console.log(error);
 
   const isSomeQueryPending = useSelector(
     (state) =>
@@ -43,6 +45,7 @@ const App = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(setAuthenticated({ userData: data?.data }));
+      console.log(dispatch(setAuthenticated({ userData: data?.data })));
     }
   }, [isFetching, dispatch]);
 
