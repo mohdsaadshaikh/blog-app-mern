@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import emailVerification from "../templates/emailVerification.js";
 import rejectedRole from "../templates/rejectedRole.js";
 import approvedRole from "../templates/approvedRole.js";
-import resetPassword from "../templates/resetpassword.js";
+import resetPassword from "../templates/resetPassword.js";
 import roleRequest from "../templates/roleRequest.js";
 
 const createTransporter = () => {
