@@ -45,7 +45,6 @@ const App = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(setAuthenticated({ userData: data?.data }));
-      console.log(dispatch(setAuthenticated({ userData: data?.data })));
     }
   }, [isFetching, dispatch]);
 
@@ -76,7 +75,6 @@ const App = () => {
                   path="/reset-password/:token"
                   element={<ResetPassword />}
                 />
-                <Route path="/blogs" element={<Blog />} />
               </>
             ) : (
               <Route path="/" element={<Layout />}>
